@@ -4,7 +4,7 @@ const router = express.Router()
 const home = require('./modules/home')
 const login = require('./modules/login')
 
-router.get('/login', login)
-router.get('/', home)
+router.use('/login', login)
+router.use('/', home)
 
 module.exports = router

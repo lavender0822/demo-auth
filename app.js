@@ -12,16 +12,6 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(routes)
 
-app.get('/', (req, res) => {
-        res.render('login')
-    })
-
-app.post('/login', (req, res) => {
-    const { email, password } = req.body
-    console.log(email, password)
-    res.render('login')
-})
-
 app.listen(PORT, () => {
     console.log(`App is running on http://localhost:${PORT}`)
 })
