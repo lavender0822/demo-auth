@@ -13,7 +13,9 @@ router.post('/', (req, res) => {
 
     return User.findOne({ email }, 'first_name email password')
     .then(user => {
-        if (user === null) res.render('login', errorMessage)
+        if (user === null) {
+            res.render('login', errorMessage)
+        }
 
         const { first_name, email, password } = user
         const dbStored = email + password

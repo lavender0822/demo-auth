@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost/demo-auth'
 
-mongoose.connect('mongodb://localhost/demo-auth')
+mongoose.connect(MONGODB_URL)
 
 const db =mongoose.connection
 
