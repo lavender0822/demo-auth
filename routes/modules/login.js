@@ -1,28 +1,35 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../../models/user')
+const sessionCheck = require('../../sessionCheck')
 
-router.get('/', (req, res) => {
-    res.render('login')
+router.get('/', sessionCheck, (req, res) => {
+   return res.render('login')
 })
 
 router.post('/', (req, res) => {
     const { email, password } = req.body
-    const userInput = email + password
-    const errorMessage = { error: `Either Email or Password not correct`}
 
-    return User.findOne({ email }, 'first_name email password')
+
+    return User.findOne({ email, password }, 'first_name')
     .then(user => {
-        if (user === null) {
-            res.render('login', errorMessage)
-        }
-
-        const { first_name, email, password } = user
-        const dbStored = email + password
-        userInput === dbStored ? 
-        res.render('index', {firstName: first_name }) :
-        res.render('login', errorMessage) 
-    })    
+        if (user) {
+            // if matched, redirect to user dashboard
+            const { first_name } = user
+            req.body['firstName'] = first_name
+            req.session.user = req.body
+            res.redirect(`/dashboard?user=${first_name}`)
+    
+          } else {
+            // using comparing operator to save the result to emailCheck
+            const emailCheck = rememberEmail === 'on'
+            // if not matched, re-render login page with error message
+            return res.render('login', { 
+              error: `Either Email or Password not correct`, 
+              emailCheck, email 
+            })
+          }
+    })
     .catch(error => console.log(error))
 })
 

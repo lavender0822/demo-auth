@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const sessionCheck = require('../../sessionCheck')
 
-router.get('/', (req, res) => {
-    res.render('login')
+router.get('/', sessionCheck, (req, res) => {
+    return res.render('login')
 })
 
 module.exports = router
